@@ -293,6 +293,6 @@ class PGoApiWorker(Thread):
         self.log.info('Login successful: {}'.format(auth_provider.username))
 
     def _login_if_necessary(self, auth_provider, position):
-        if not auth_provider.is_login() or auth_provider._access_token_expiry > time.time() + 120:
+        if not auth_provider.is_login() or auth_provider._access_token_expiry < time.time() + 120:
             self._login(auth_provider, position)
 
