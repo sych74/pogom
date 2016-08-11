@@ -121,6 +121,7 @@ class RpcApi:
     def request(self, endpoint, subrequests, player_position):
 
         if not self._auth_provider or self._auth_provider.is_login() is False:
+            self.log.warning("not logged in exception")
             raise NotLoggedInException()
 
         request_proto = self._build_main_request(subrequests, player_position)
@@ -136,6 +137,7 @@ class RpcApi:
         if isinstance(response_dict, dict):
             status_code = response_dict.get('status_code', None)
             if status_code == 102:
+                self.log.warning("auth token expired: {}".format(response_dict))
                 raise AuthTokenExpiredException()
             elif status_code == 52:
                 raise ServerSideRequestThrottlingException("Request throttled by server... slow down man")
@@ -165,9 +167,9 @@ class RpcApi:
             h, m, s = get_format_time_diff(now_ms, auth_ticket['expire_timestamp_ms'], True)
 
             if had_ticket:
-                self.log.debug('Replacing old Session Ticket with new one valid for %02d:%02d:%02d hours (%s < %s)', h, m, s, now_ms, auth_ticket['expire_timestamp_ms'])
+                self.log.warning('Replacing old Session Ticket with new one valid for %02d:%02d:%02d hours (%s < %s)', h, m, s, now_ms, auth_ticket['expire_timestamp_ms'])
             else:
-                self.log.debug('Received Session Ticket valid for %02d:%02d:%02d hours (%s < %s)', h, m, s, now_ms, auth_ticket['expire_timestamp_ms'])
+                self.log.warning('Received Session Ticket valid for %02d:%02d:%02d hours (%s < %s)', h, m, s, now_ms, auth_ticket['expire_timestamp_ms'])
 
     def _build_main_request(self, subrequests, player_position=None):
         self.log.debug('Generating main RPC request...')
@@ -186,7 +188,7 @@ class RpcApi:
 
         ticket = self._auth_provider.get_ticket()
         if ticket:
-            self.log.debug('Found Session Ticket - using this instead of oauth token')
+            self.log.warning('Found Session Ticket - using this instead of oauth token')
             request.auth_ticket.expire_timestamp_ms, request.auth_ticket.start, request.auth_ticket.end = ticket
 
             if self._signature_gen:
@@ -211,7 +213,7 @@ class RpcApi:
                 u6.request_type = 6
                 u6.unknown2.unknown1 = self._generate_signature(signature_proto)
         else:
-            self.log.debug('No Session Ticket found - using OAUTH Access Token')
+            self.log.warning('No Session Ticket found - using OAUTH Access Token')
             request.auth_info.provider = self._auth_provider.get_name()
             request.auth_info.token.contents = self._auth_provider.get_access_token()
             request.auth_info.token.unknown2 = 59

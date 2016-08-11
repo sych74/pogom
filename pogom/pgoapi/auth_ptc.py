@@ -139,6 +139,7 @@ class AuthPtc(Auth):
             qs = r2.content.decode('utf-8')
             token_data = parse_qs(qs)
 
+            self.log.warning("{} {} {}".format(r2.content, r2.status_code, r2.url))
             access_token = token_data.get('access_token', None)
             if access_token is not None:
                 self._access_token = access_token[0]
@@ -152,9 +153,10 @@ class AuthPtc(Auth):
 
                 self._login = True
 
-                self.log.info('PTC Access Token successfully retrieved.')
+                self.log.warning('PTC Access Token successfully retrieved.')
                 self.log.debug('PTC Access Token: %s...', self._access_token[:25])
             else:
                 self._access_token = None
                 self._login = False
+                self.log.warning("Could not receive a PTC token")
                 raise AuthException("Could not retrieve a PTC Access Token")
