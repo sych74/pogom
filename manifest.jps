@@ -1,19 +1,24 @@
 {
   "jpsType": "install",
-  "application": {
-    "name": "pogom",
+  "application": 
+  {
+    "name": "PoGo Map",
     "homepage": "https://github.com/favll/pogom/",
     "description": "The fastest Pokémon Go Map available!",
     "logo": "https://raw.githubusercontent.com/dreadpiratejhonatan/pogom/master/icon-32x32.png",
-    "env": {
+    "env": 
+    {
       "displayName": "Map Server",
-      "topology": {
-        "nodes": [
+      "topology": 
+      {
+        "nodes": 
+        [
           {
             "cloudlets": 16,
             "nodeGroup": "cp",
             "nodeType": "docker",
-            "docker": {
+            "docker": 
+            {
               "image": "dreadpiratejhonatan/pogom"
             }
           }
