@@ -28,7 +28,7 @@ There's no other flags besides  `-H` and `-P`, everything else is configured thr
  - Add scan locations simply by clicking on the map
 
 ##Deployment on Cloud
-[![Deploy](https://raw.githubusercontent.com/dreadpiratejhonatan/PokemonGo-Map-in-Cloud/master/images/deploy-to-jelastic.png)](https://jelastic.com/install-application/?manifest=https://raw.githubusercontent.com/dreadpiratejhonatan/pogom/master/manifest.jps)
+[![Deploy](https://raw.githubusercontent.com/dreadpiratejhonatan/pogom/master/deploy-to-jelastic.png)](https://jelastic.com/install-application/?manifest=https://raw.githubusercontent.com/dreadpiratejhonatan/pogom/master/manifest.jps)
 
 
 ##Features
