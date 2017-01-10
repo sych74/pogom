@@ -19,7 +19,7 @@
             "nodeType": "docker",
             "docker": 
             {
-              "image": "favll/pogom"
+              "image": "favll/pogom2"
             }
           }
         ]
